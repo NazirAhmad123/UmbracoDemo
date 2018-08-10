@@ -14,6 +14,7 @@ namespace test.Controllers
         DemoDbEntities db = new DemoDbEntities();
         [HttpGet]
         //[AllowAnonymous]
+        // adding some comment to commit
         public HttpResponseMessage GetIndex()
         {
             try
