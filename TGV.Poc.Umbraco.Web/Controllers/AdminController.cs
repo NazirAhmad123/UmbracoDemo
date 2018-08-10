@@ -9,7 +9,7 @@ namespace test.Controllers
 {
     public class AdminController : UmbracoAuthorizedApiController
     {
-        // comment
+        // comment 1
         DemoDbEntities db = new DemoDbEntities();
         [HttpGet]
         [AllowAnonymous]
