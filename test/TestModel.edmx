@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DemoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MemberID" Type="uniqueidentifier" />
+          <Property Name="ProductID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionProduct">
+          <Key>
+            <PropertyRef Name="TransactionProductID" />
+          </Key>
+          <Property Name="TransactionProductID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TransactionID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProductID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TransactionProductDateTime" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TransactionCode" Type="int" Nullable="false" />
+          <Property Name="TransactionDateTime" Type="date" Nullable="false" />
+          <Property Name="MemberID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MemberProduct_ToTable">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="MemberProduct" Type="Self.MemberProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberProduct">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberProduct_ToTable_1">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="MemberProduct" Type="Self.MemberProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="MemberProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_ToTable">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionProduct_ToTable">
+          <End Role="Transactions" Type="Self.Transactions" Multiplicity="1" />
+          <End Role="TransactionProduct" Type="Self.TransactionProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="TransactionID" />
+            </Principal>
+            <Dependent Role="TransactionProduct">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionProduct_ToTable_1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="TransactionProduct" Type="Self.TransactionProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="TransactionProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDbModelStoreContainer">
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MemberProduct" EntityType="Self.MemberProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionProduct" EntityType="Self.TransactionProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MemberProduct_ToTable" Association="Self.FK_MemberProduct_ToTable">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberProduct" EntitySet="MemberProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberProduct_ToTable_1" Association="Self.FK_MemberProduct_ToTable_1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="MemberProduct" EntitySet="MemberProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_ToTable" Association="Self.FK_Transaction_ToTable">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionProduct_ToTable" Association="Self.FK_TransactionProduct_ToTable">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="TransactionProduct" EntitySet="TransactionProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionProduct_ToTable_1" Association="Self.FK_TransactionProduct_ToTable_1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="TransactionProduct" EntitySet="TransactionProduct" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DemoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Guid" Nullable="false" />
+          <Property Name="MemberName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MemberProducts" Relationship="Self.FK_MemberProduct_ToTable" FromRole="Member" ToRole="MemberProduct" />
+          <NavigationProperty Name="Transactions" Relationship="Self.FK_Transaction_ToTable" FromRole="Member" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="MemberProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="MemberID" Type="Guid" />
+          <Property Name="ProductID" Type="Guid" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberProduct_ToTable" FromRole="MemberProduct" ToRole="Member" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_MemberProduct_ToTable_1" FromRole="MemberProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="MemberProducts" Relationship="Self.FK_MemberProduct_ToTable_1" FromRole="Product" ToRole="MemberProduct" />
+          <NavigationProperty Name="TransactionProducts" Relationship="Self.FK_TransactionProduct_ToTable_1" FromRole="Product" ToRole="TransactionProduct" />
+        </EntityType>
+        <EntityType Name="TransactionProduct">
+          <Key>
+            <PropertyRef Name="TransactionProductID" />
+          </Key>
+          <Property Name="TransactionProductID" Type="Guid" Nullable="false" />
+          <Property Name="TransactionID" Type="Guid" Nullable="false" />
+          <Property Name="ProductID" Type="Guid" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TransactionProductDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_TransactionProduct_ToTable_1" FromRole="TransactionProduct" ToRole="Product" />
+          <NavigationProperty Name="Transaction" Relationship="Self.FK_TransactionProduct_ToTable" FromRole="TransactionProduct" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Guid" Nullable="false" />
+          <Property Name="TransactionCode" Type="Int32" Nullable="false" />
+          <Property Name="TransactionDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MemberID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Transaction_ToTable" FromRole="Transactions" ToRole="Member" />
+          <NavigationProperty Name="TransactionProducts" Relationship="Self.FK_TransactionProduct_ToTable" FromRole="Transactions" ToRole="TransactionProduct" />
+        </EntityType>
+        <Association Name="FK_MemberProduct_ToTable">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="MemberProduct" Type="Self.MemberProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberProduct">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_ToTable">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberProduct_ToTable_1">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="MemberProduct" Type="Self.MemberProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="MemberProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionProduct_ToTable_1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="TransactionProduct" Type="Self.TransactionProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="TransactionProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransactionProduct_ToTable">
+          <End Role="Transactions" Type="Self.Transaction" Multiplicity="1" />
+          <End Role="TransactionProduct" Type="Self.TransactionProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transactions">
+              <PropertyRef Name="TransactionID" />
+            </Principal>
+            <Dependent Role="TransactionProduct">
+              <PropertyRef Name="TransactionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DemoDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="MemberProducts" EntityType="Self.MemberProduct" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="TransactionProducts" EntityType="Self.TransactionProduct" />
+          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+          <AssociationSet Name="FK_MemberProduct_ToTable" Association="Self.FK_MemberProduct_ToTable">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MemberProduct" EntitySet="MemberProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_ToTable" Association="Self.FK_Transaction_ToTable">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberProduct_ToTable_1" Association="Self.FK_MemberProduct_ToTable_1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="MemberProduct" EntitySet="MemberProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionProduct_ToTable_1" Association="Self.FK_TransactionProduct_ToTable_1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="TransactionProduct" EntitySet="TransactionProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransactionProduct_ToTable" Association="Self.FK_TransactionProduct_ToTable">
+            <End Role="Transactions" EntitySet="Transactions" />
+            <End Role="TransactionProduct" EntitySet="TransactionProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DemoDbModelStoreContainer" CdmEntityContainer="DemoDbEntities">
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="DemoDbModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberProducts">
+            <EntityTypeMapping TypeName="DemoDbModel.MemberProduct">
+              <MappingFragment StoreEntitySet="MemberProduct">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="DemoDbModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionProducts">
+            <EntityTypeMapping TypeName="DemoDbModel.TransactionProduct">
+              <MappingFragment StoreEntitySet="TransactionProduct">
+                <ScalarProperty Name="TransactionProductID" ColumnName="TransactionProductID" />
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="TransactionProductDateTime" ColumnName="TransactionProductDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="DemoDbModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="TransactionCode" ColumnName="TransactionCode" />
+                <ScalarProperty Name="TransactionDateTime" ColumnName="TransactionDateTime" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
