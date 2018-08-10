@@ -2,17 +2,18 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http;
+using test.Models;
 using Umbraco.Web.WebApi;
 
 namespace test.Controllers
 {
     public class AdminController : UmbracoAuthorizedApiController
     {
-        // comment 12
         DemoDbEntities db = new DemoDbEntities();
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public HttpResponseMessage GetIndex()
         {
             try
@@ -20,15 +21,15 @@ namespace test.Controllers
                 using (var db = new DemoDbEntities())
                 {
 
-                    var products = db.Products.Select(x => new
-                    {
-                        Product_ID = x.ProductID,
-                        Product_Name = x.Name,
-                        Product_Price = x.Price
+                    var products = db.Products.Select(x => new 
+                    { 
+                        ID = x.ProductID.ToString(),
+                        Name = x.Name,
+                        Price = x.Price.ToString()
 
                     }).ToList();
 
-                    return Request.CreateResponse(HttpStatusCode.OK, products);
+                    return Request.CreateResponse(HttpStatusCode.OK, products, JsonMediaTypeFormatter.DefaultMediaType);
                 };
             }
             catch(Exception e)

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGV.Poc.Umbraco.Web", "TGV.Poc.Umbraco.Web.csproj", "{D3DE0AF5-2249-4202-BA42-D649439AE25C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGV.Poc.Umbraco.Web", "test\TGV.Poc.Umbraco.Web.csproj", "{D3DE0AF5-2249-4202-BA42-D649439AE25C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5FF6694D-2290-41B5-88AB-6935A090DE9E}
+		SolutionGuid = {3B72213F-F81A-493D-91F6-1D3BB7EF3280}
 	EndGlobalSection
 EndGlobal

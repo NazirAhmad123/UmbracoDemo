@@ -315,6 +315,7 @@
     <Compile Include="MemberProduct.cs">
       <DependentUpon>TestModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductJson.cs" />
     <Compile Include="Product.cs">
       <DependentUpon>TestModel.tt</DependentUpon>
     </Compile>
